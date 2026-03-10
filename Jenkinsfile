@@ -20,13 +20,13 @@ pipeline {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/JayM2000/jenkins_backend.git',
-                    credentialsId: 'github-credentials', 
+                    credentialsId: 'github-credentials'
             }
         }
         stage('Sonarqube Analysis') {
             steps {
                     withSonarQubeEnv('sonar-server') {
-                        sh ''' $SCANNER_HOME/bin/sonarqube-scanner \
+                        sh ''' $SCANNER_HOME/bin/sonar-scanner \
                         -Dsonar.projectName=backend \
                         -Dsonar.projectKey=backend '''
                     }
@@ -81,7 +81,7 @@ pipeline {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/JayM2000/jenkins_manifest_files.git',
-                    credentialsId: 'github-credentials', 
+                    credentialsId: 'github-credentials'
             }
         }
         stage('Update Deployment file') {
@@ -91,7 +91,7 @@ pipeline {
             }
             steps {
                 dir('Backend/') {
-                    withCredentials([string(credentialsId: 'github_token ', variable: 'GITHUB_TOKEN')]) {
+                    withCredentials([string(credentialsId: 'github_token', variable: 'GITHUB_TOKEN')]) {
                         sh '''
                             git config user.email "jaymisal200@gmail.com"
                             git config user.name "JayM2000"
